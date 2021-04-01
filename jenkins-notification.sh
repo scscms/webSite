@@ -55,7 +55,7 @@ webhook_key="${1}" # 企业微信群机器人webhook的key，设置到环境变�
 project_name="${2}" #工程名
 branch="${3}" #分支
 buildStatus="${4}" # 构建状态
-webhook_url="http://10.70.27.16:8080/job/Machinelinkapp.rootcloud.com_pre/${webhook_key}/console"
+webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?&key=${webhook_key}"
 
 
 # 解决容器少8小时问题（按理是容器设置好）
