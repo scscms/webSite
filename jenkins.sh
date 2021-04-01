@@ -36,7 +36,6 @@ buildStatus="${2}" # 参数2：构建状态
 webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?&key=${webhook_key}"
 
 deploytime=$(date "+%Y-%m-%d %H:%M:%S") #时间
-branchName = $(/usr/bin/git symbolic-ref --short HEAD) #分支名称${GIT_BRANCH} ${GIT_LOCAL_BRANCH}
 commitMessage=$(/usr/bin/git log --oneline -n 1) #提交信息${GIT_COMMIT}
 commitAuthorName=$(/usr/bin/git --no-pager show -s --format='%an' HEAD) #提交作者${GIT_COMMITTER_NAME}
 commitAuthorEmail=$(/usr/bin/git --no-pager show -s --format='%ae' HEAD) #提交邮箱${GIT_COMMITTER_EMAIL}
@@ -46,6 +45,6 @@ if [ ! -n "$1" ]; then
     exit 1
 fi
 
-info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>${JOB_NAME}</font> \n >构建状态: $buildStatus \n >分支：<font color='warning'>$branchName</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG](${BUILD_URL}console)"
+info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>${JOB_NAME}</font> \n >构建状态: $buildStatus \n >分支：<font color='warning'>${GIT_LOCAL_BRANCH}</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG](${BUILD_URL}console)"
 
 sendNotifications
