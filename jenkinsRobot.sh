@@ -22,8 +22,6 @@ function error() {
 
 #发送信息
 function sendNotifications() {
-	log "GIT_BRANCH=${GIT_BRANCH}GIT_LOCAL_BRANCH=${GIT_LOCAL_BRANCH}GIT_COMMIT=${GIT_COMMIT}"
-	log "GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME}GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL}"
     curl  "$webhook_url" \
     -H 'Content-Type: application/json' \
     -X POST --data "{  \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"$info_content\" }}"
@@ -36,15 +34,15 @@ buildStatus="${2}" # 参数2：构建状态
 webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?&key=${webhook_key}"
 
 deploytime=$(date "+%Y-%m-%d %H:%M:%S") #时间
-commitMessage=$(/usr/bin/git log --oneline -n 1) #提交信息${GIT_COMMIT}
-commitAuthorName=$(/usr/bin/git --no-pager show -s --format='%an' HEAD) #提交作者${GIT_COMMITTER_NAME}
-commitAuthorEmail=$(/usr/bin/git --no-pager show -s --format='%ae' HEAD) #提交邮箱${GIT_COMMITTER_EMAIL}
+commitMessage=$(/usr/bin/git log --oneline -n 1) #提交信息
+commitAuthorName=$(/usr/bin/git --no-pager show -s --format='%an' HEAD) #提交作者
+commitAuthorEmail=$(/usr/bin/git --no-pager show -s --format='%ae' HEAD) #提交邮箱
 
 if [ ! -n "$1" ]; then
-    echo "缺少webhook key"
+    log "缺少webhook key"
     exit 1
 fi
 
-info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>${JOB_NAME}</font> \n >构建状态: $buildStatus \n >分支：<font color='warning'>${GIT_LOCAL_BRANCH}</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG](${BUILD_URL}console)"
+info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>${JOB_NAME}</font> \n >构建状态: <font color='warning'>$buildStatus</font> \n >git分支：<font color='warning'>${GIT_BRANCH}</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'><font color='warning'>$commitAuthorName</font><$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG](${BUILD_URL}console)"
 
 sendNotifications
