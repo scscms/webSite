@@ -55,7 +55,6 @@ webhook_key="${1}" # 企业微信群机器人webhook的key，设置到环境变�
 project_name="${2}" #工程名
 branch="${3}" #分支
 buildStatus="${4}" # 构建状态
-description="${5}" # 详细描述说明
 webhook_url="http://10.70.27.16:8080/job/Machinelinkapp.rootcloud.com_pre/${webhook_key}/console"
 
 
@@ -81,10 +80,8 @@ if [ ! -n "$1" ]; then
     exit 1
 fi
 
-# info_content="<font color='info'>$project_name</font> 工程构建。"
-info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>$project_name</font> \n >构建状态: $buildStatus \n >构建详情: $description \n  >分支：<font color='warning'>$branch</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG]($BUILD_URL_LOG)"
+info_content=" -----------自动化部署消息通知---------- \n >项目名: <font color='info'>$project_name</font> \n >构建状态: $buildStatus \n  >分支：<font color='warning'>$branch</font> \n >时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >构建日志：[$BUILD_TAG]($BUILD_URL_LOG)"
 
-# json_data="{  \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"aaa\" }}"
 json_data="{  \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"$info_content\" }}"
 
 sendNotifications
