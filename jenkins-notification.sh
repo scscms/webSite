@@ -56,7 +56,7 @@ project_name="${2}" #工程名
 branch="${3}" #分支
 buildStatus="${4}" # 构建状态
 description="${5}" # 详细描述说明
-webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?&key=${webhook_key}"
+webhook_url="http://10.70.27.16:8080/job/Machinelinkapp.rootcloud.com_pre/${webhook_key}/console"
 
 
 # 解决容器少8小时问题（按理是容器设置好）
